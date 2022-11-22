@@ -6,12 +6,10 @@ export default class Input extends React.Component {
 
 
    render() {
-      // const { changeCheck } = this.props;
       return (
         <input
           className="toggle"
           type="checkbox"
-            onChange={changeCheck}
          ></input>
       );
    }
