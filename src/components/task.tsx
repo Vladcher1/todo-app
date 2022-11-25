@@ -1,54 +1,50 @@
+// import { checkServerIdentity } from "tls";
 import React from "react";
-import { render } from "react-dom";
-import { checkServerIdentity } from "tls";
-import { setConstantValue } from "typescript";
-import { formatDistanceToNow, subDays } from "date-fns";
+// import { render } from "react-dom";
+// import { setConstantValue } from "typescript";
+import { formatDistanceToNow } from "date-fns";
 
-type Props = {
+export type tProps = {
   label: string;
   done: boolean;
   onDeleted: any;
   onCompleted: any;
   time: Date;
-  id: number;
+  id: any;
 };
 
-const Task = ({ label, done, onDeleted, onCompleted, time, id }: Props) => {
+function Task({ label, done, onDeleted, onCompleted, time, id }: tProps) {
   let classNames = "";
   if (done) {
     classNames += " completed";
   }
   return (
-    <li key={id} className={classNames}>
+    <li className={classNames}>
       <div className="view">
         <input
           className="toggle"
           type="checkbox"
           onChange={onCompleted}
-          checked={done}></input>
+          checked={done}
+          id={id}
+        />
 
-        <label htmlFor="toggle">
-          <span className="description" onClick={onCompleted}>
-            {label}
-          </span>
+        <label htmlFor={id}>
+          <span className="description">{label}</span>
           <span className="created">
             {formatDistanceToNow(time, { includeSeconds: true })}
           </span>
         </label>
-        <button className="icon icon-edit"></button>
-        <button className="icon icon-destroy" onClick={onDeleted}></button>
+        <button aria-label="edit" type="button" className="icon icon-edit" />
+        <button
+          aria-label="delete"
+          type="button"
+          className="icon icon-destroy"
+          onClick={onDeleted}
+        />
       </div>
     </li>
   );
-};
-
-Task.defaultProps = {
-  label: "",
-  Done: false,
-  onCompleted: () => {},
-  onDeleted: () => {},
-  time: new Date(),
-  id: 0,
-};
+}
 
 export default Task;

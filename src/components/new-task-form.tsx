@@ -1,45 +1,43 @@
-import React from "react";
+import React, { Component } from "react";
 
 type tProps = {
-  addItem: Function
-}
-export default class NewTaskForm extends React.Component<any, any> {
-  constructor(props: tProps) {
-    super(props);
-  }
+  addItem: Function;
+};
+export default class NewTaskForm extends Component<tProps> {
+  // constructor(props: tProps) {
+  //   super(props);
+  // }
 
-  state = {
-    label: "",
+  // static defaultProps = {
+  //   addItem: () => {},
+  // };
+
+  state = { label: "" };
+
+  inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ label: e.target.value });
   };
 
-  inputChange = (e: any) => {
-    this.setState({
-      label: e.target.value,
-    });
-  };
-
-  submitForm = (e: any) => {
+  submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { label } = this.state;
     this.setState({ label: "" });
-    const cb = this.props.addItem || (() => {});
+    const { addItem } = this.props;
+    const cb = addItem;
     cb(label);
   };
 
   render(): React.ReactNode {
+    const { label } = this.state;
     return (
       <form onSubmit={this.submitForm}>
         <input
           onChange={this.inputChange}
-          value={this.state.label}
+          value={label}
           className="new-todo"
           placeholder="What needs to be done?"
-          autoFocus></input>
+        />
       </form>
     );
   }
-
-  static defaultProps = {
-    addItem: () => { }
-  };
 }

@@ -1,36 +1,27 @@
-import { render } from "@testing-library/react";
-import React, { Component } from "react";
-import { isArgumentsObject } from "util/types";
+// import { isArgumentsObject } from "util/types";
+// import { render } from "@testing-library/react";
+import React from "react";
+
 import Task from "./task";
 
-type Props = {
+type lProps = {
   todoData: any;
   onDeleted: Function;
   onCompleted: Function;
 };
 
-
-const TaskList = ({ todoData, onDeleted, onCompleted }: Props) => {
+function TaskList({ todoData, onDeleted, onCompleted }: lProps) {
   const elements = todoData.map((element: any) => {
-    const {
-      id,
-      checked,
-      onToggleDone,
-      label,
-      uncompleted,
-      addItem,
-      ...elementProps
-    } = element;
-
+    const { id, label, done, time } = element;
     return (
       <Task
-        {...element}
+        time={time}
+        done={done}
         key={id}
+        label={label}
+        id={id}
         onDeleted={() => {
           onDeleted(id);
-        }}
-        addItem={() => {
-          addItem(label);
         }}
         onCompleted={() => {
           onCompleted(id);
@@ -40,11 +31,6 @@ const TaskList = ({ todoData, onDeleted, onCompleted }: Props) => {
   });
 
   return <ul className="todo-list">{elements}</ul>;
-};
+}
 
-TaskList.defaultProps = {
-  todoData: () => {},
-  onDeleted: () => {},
-  onCompleted: () => {},
-};
 export default TaskList;

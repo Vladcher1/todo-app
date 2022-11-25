@@ -1,5 +1,9 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable react/no-unused-class-component-methods */
 import React, { Component } from "react";
 import ReactDOM from "react-dom/client";
+
 import Footer from "./components/footer";
 import NewTaskForm from "./components/new-task-form";
 import TaskList from "./components/task-list";
@@ -8,112 +12,97 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-type Todo = { label: string; id: number; done: boolean; time: Date};
+type Todo = { label: string; id: number; done: boolean; time: Date };
 type State = { todoData: Todo[]; filter: string };
 
 export default class App extends Component {
-  
-  maxId: number = 4;
-  createTask = (label: string) => {
-    return {
-      label,
-      id: this.maxId++,
-      done: false,
-      time: new Date()
-    };
-  };
+  maxId = 4;
 
   state: State = {
-    todoData: [
-      this.createTask("Completed task"),
-      this.createTask("Editing task"),
-      this.createTask("Active task"),
-    ],
+    todoData: [],
     filter: "all",
+  };
+
+  createTask = (label: string) => {
+    const newDate = new Date();
+    this.maxId += 1;
+    return {
+      label,
+      id: this.maxId,
+      done: false,
+      time: newDate,
+    };
   };
 
   addItem = (text: string) => {
     const newTask = this.createTask(text);
-    this.setState(({ todoData }:any) => {
-      return { todoData: [...todoData, newTask] };
-    });
+    this.setState(({ todoData }: State) => ({
+      todoData: [...todoData, newTask],
+    }));
   };
 
   filterChange = (name: string) => {
-    this.setState(() => {
-      return { filter: name };
-    });
+    this.setState(() => ({ filter: name }));
   };
 
-  filterTasks = (todoData: Todo[], filter:string) => {
+  filterTasks = (todoData: Todo[], filter: string) => {
     if (filter === "active") {
-      return todoData.filter((el: any) => !el.done);
+      return todoData.filter((el: Todo) => !el.done);
     }
     if (filter === "done") {
-      return todoData.filter((el: any) => el.done);
+      return todoData.filter((el: Todo) => el.done);
     }
-    if (filter === "all") {
-      return todoData.filter((el: any) => el);
-    }
+    return todoData;
   };
 
   getUndone = () => {
-   return this.state.todoData.filter((el: any) => el.done === false).length;
+    const { todoData } = this.state;
+    return todoData.filter((el: Todo) => el.done === false).length;
   };
 
   deleteAllCompleted = () => {
-    this.setState(({ todoData }: any) => {
-      const completed = todoData.filter((el: any) => {
-        return el.done !== true;
-      });
+    this.setState(({ todoData }: State) => {
+      const completed = todoData.filter((el: Todo) => el.done !== true);
       return {
-        todoData: completed.filter((el: any) => todoData.includes(el)),
+        todoData: completed.filter((el: Todo) => todoData.includes(el)),
       };
     });
   };
 
   deleteItem = (id: number) => {
-    this.setState(({ todoData }: any) => {
-      return {
-        todoData: todoData.filter((el: any) => el.id !== id),
-      };
-    });
+    this.setState(({ todoData }: State) => ({
+      todoData: todoData.filter((el: Todo) => el.id !== id),
+    }));
   };
 
   completeItem = (id: number) => {
-    const newArray = this.state.todoData.map((el: any) => {
+    const { todoData } = this.state;
+    const newArray = todoData.map((el: Todo) => {
+      const newEl = el;
       if (el.id === id) {
-        el.done = !el.done;
-        return el;
+        newEl.done = !el.done;
+        return newEl;
       }
-      return el;
+      return newEl;
     });
 
-    this.setState(() => {
-      return {
-        todoData: newArray,
-      };
-    });
+    this.setState(() => ({ todoData: newArray }));
 
     this.getUndone();
   };
 
-
   render() {
-    const visibleItems = this.filterTasks(
-      this.state.todoData,
-      this.state.filter
-    );
+    const { todoData, filter } = this.state;
+    const visibleItems = this.filterTasks(todoData, filter);
     return (
       <div className="todoapp">
         <header className="header">
-          <h1>
-            todos
-          </h1>
+          <h1>todos</h1>
           <NewTaskForm addItem={this.addItem} />
         </header>
         <section className="main">
           <TaskList
+            // addItem={this.addItem}
             todoData={visibleItems}
             onDeleted={this.deleteItem}
             onCompleted={this.completeItem}
@@ -121,7 +110,6 @@ export default class App extends Component {
           <Footer
             deleteAllCompleted={this.deleteAllCompleted}
             getUndone={this.getUndone}
-            filterTasks={this.filterTasks}
             filterChange={this.filterChange}
           />
         </section>
