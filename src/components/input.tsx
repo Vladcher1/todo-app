@@ -6,4 +6,6 @@ const Input = function input() {
   return <input className="toggle" type="checkbox" />;
 };
 
+
+
 export default Input;
