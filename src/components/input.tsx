@@ -8,4 +8,5 @@ const Input = function input() {
 
 console.log();
 
+";;;"(";;;;");
 export default Input;
