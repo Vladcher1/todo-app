@@ -72,6 +72,11 @@
     "./src/*.{ts,tsx}": [
       "npm run lint:fix",
       "npm run prettier --write ."
+    ],
+    "./src/components/*.{ts,tsx}": [
+      "npm run eslint ./src",
+      "npm run lint:fix",
+      "npm run prettier --write ."
     ]
   }
 }
