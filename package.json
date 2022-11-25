@@ -68,10 +68,7 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint ./src",
-      "prettier --write .",
-      "git add"
-    ]
+    "*.{ts,tsx}": "eslint --fix"
   }
 }
+
