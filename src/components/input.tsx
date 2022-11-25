@@ -5,8 +5,4 @@ import React from "react";
 const Input = function input() {
   return <input className="toggle" type="checkbox" />;
 };
-
-console.log();
-
-";;;"(";;;;");
 export default Input;
