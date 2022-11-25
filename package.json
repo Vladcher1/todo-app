@@ -71,12 +71,11 @@
   "lint-staged": {
     "./src/*.{ts,tsx}": [
       "npm run lint:fix",
-      "npm run prettier --write ."
+      "npm run format"
     ],
     "./src/components/*.{ts,tsx}": [
-      "npm run eslint ./src",
       "npm run lint:fix",
-      "npm run prettier --write ."
+      "npm run format"
     ]
   }
 }
