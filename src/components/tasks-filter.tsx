@@ -1,15 +1,26 @@
 import React from "react";
 
-type Props = {
-  filterChange: Function;
-};
-function TasksFilter({ filterChange }: Props) {
+import { EProps } from "../modules";
+
+function TasksFilter({ filterChange, filter }: EProps) {
+  let classNamesAll = "";
+  let classNamesActive = "";
+  let classNamesDone = "";
+
+  if (filter === "all") {
+    classNamesAll = "selected";
+  } else if (filter === "active") {
+    classNamesActive = "selected";
+  } else if (filter === "done") {
+    classNamesDone = "selected";
+  }
+
   return (
     <ul className="filters">
       <li>
         <button
           type="button"
-          className="selected"
+          className={classNamesAll}
           onClick={() => {
             filterChange("all");
           }}
@@ -20,6 +31,7 @@ function TasksFilter({ filterChange }: Props) {
       <li>
         <button
           type="button"
+          className={classNamesActive}
           onClick={() => {
             filterChange("active");
           }}
@@ -30,6 +42,7 @@ function TasksFilter({ filterChange }: Props) {
       <li>
         <button
           type="button"
+          className={classNamesDone}
           onClick={() => {
             filterChange("done");
           }}
@@ -40,9 +53,5 @@ function TasksFilter({ filterChange }: Props) {
     </ul>
   );
 }
-
-// TasksFilter.defaultProps = {
-//   filterChange: () => {},
-// };
 
 export default TasksFilter;

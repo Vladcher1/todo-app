@@ -1,50 +1,90 @@
-// import { checkServerIdentity } from "tls";
 import React from "react";
-// import { render } from "react-dom";
-// import { setConstantValue } from "typescript";
 import { formatDistanceToNow } from "date-fns";
 
-export type tProps = {
-  label: string;
-  done: boolean;
-  onDeleted: any;
-  onCompleted: any;
-  time: Date;
-  id: any;
-};
+import Timer from "./timer";
 
-function Task({ label, done, onDeleted, onCompleted, time, id }: tProps) {
-  let classNames = "";
-  if (done) {
-    classNames += " completed";
+export default class Task extends React.Component {
+  state = {
+    running: false,
+  };
+
+  // componentDidMount() {
+  //   const { time }: any = this.props;
+  //   this.distanceToNow = setInterval(
+  //     () => formatDistanceToNow(time, { includeSeconds: true }),
+  //     1000
+  //   );
+  // }
+
+  // formatDistanceToNow(time, { includeSeconds: true })
+  // componentWillUnmount() {
+  //   clearInterval(this.distanceToNow);
+  // }
+
+  toggleRunning = () => {
+    const { running } = this.state;
+    this.setState({
+      running: !running,
+    });
+  };
+
+  render() {
+    const { label, done, onDeleted, onCompleted, time, id }: any = this.props;
+    const { running }: any = this.state;
+
+    // console.log(this.distanceToNow);
+    let classNames = "";
+    const check = done ? (classNames += " completed ") : (classNames = "");
+    const showPlay = !running ? (
+      <button
+        className="icon icon-play"
+        type="button"
+        aria-label="start timer"
+        onClick={() => this.toggleRunning()}
+      />
+    ) : null;
+
+    const showPause = running ? (
+      <button
+        className="icon icon-pause"
+        type="button"
+        aria-label="stop timer"
+        onClick={() => this.toggleRunning()}
+      />
+    ) : null;
+
+    const showStopwatch = running ? showPause : showPlay;
+
+    return (
+      <li className={check}>
+        <div className="view">
+          <input
+            className="toggle"
+            type="checkbox"
+            onChange={onCompleted}
+            checked={done}
+            id={id}
+          />
+
+          <label htmlFor={id}>
+            <span className="description title">
+              {label}
+              {showStopwatch}
+              <Timer running={running} />
+            </span>
+            <span className="created">
+              {formatDistanceToNow(time, { includeSeconds: true })}
+            </span>
+          </label>
+          <button aria-label="edit" type="button" className="icon icon-edit" />
+          <button
+            aria-label="delete"
+            type="button"
+            className="icon icon-destroy"
+            onClick={onDeleted}
+          />
+        </div>
+      </li>
+    );
   }
-  return (
-    <li className={classNames}>
-      <div className="view">
-        <input
-          className="toggle"
-          type="checkbox"
-          onChange={onCompleted}
-          checked={done}
-          id={id}
-        />
-
-        <label htmlFor={id}>
-          <span className="description">{label}</span>
-          <span className="created">
-            {formatDistanceToNow(time, { includeSeconds: true })}
-          </span>
-        </label>
-        <button aria-label="edit" type="button" className="icon icon-edit" />
-        <button
-          aria-label="delete"
-          type="button"
-          className="icon icon-destroy"
-          onClick={onDeleted}
-        />
-      </div>
-    </li>
-  );
 }
-
-export default Task;

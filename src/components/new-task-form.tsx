@@ -1,17 +1,8 @@
 import React, { Component } from "react";
 
-type tProps = {
-  addItem: Function;
-};
+import { tProps } from "../modules";
+
 export default class NewTaskForm extends Component<tProps> {
-  // constructor(props: tProps) {
-  //   super(props);
-  // }
-
-  // static defaultProps = {
-  //   addItem: () => {},
-  // };
-
   state = { label: "" };
 
   inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,10 +12,11 @@ export default class NewTaskForm extends Component<tProps> {
   submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { label } = this.state;
-    this.setState({ label: "" });
-    const { addItem } = this.props;
-    const cb = addItem;
-    cb(label);
+    if (label.trim() !== "") {
+      this.setState({ label: "" });
+      const { addItem } = this.props;
+      addItem(label);
+    }
   };
 
   render(): React.ReactNode {

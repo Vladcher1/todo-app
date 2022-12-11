@@ -1,19 +1,19 @@
 import React from "react";
 
+import { Props } from "../modules";
+
 import TasksFilter from "./tasks-filter";
 
-type Props = {
-  deleteAllCompleted: Function;
-  getUndone: Function;
-  // filterTasks: Function;
-  filterChange: Function;
-};
-
-function Footer({ deleteAllCompleted, getUndone, filterChange }: Props) {
+function Footer({
+  deleteAllCompleted,
+  getUndone,
+  filterChange,
+  filter,
+}: Props) {
   return (
     <footer className="footer">
-      <span className="todo-count">{getUndone()} items left</span>
-      <TasksFilter filterChange={filterChange} />
+      <span className="todo-count">{getUndone} items left</span>
+      <TasksFilter filter={filter} filterChange={filterChange} />
       <button
         type="button"
         className="clear-completed"
@@ -26,11 +26,5 @@ function Footer({ deleteAllCompleted, getUndone, filterChange }: Props) {
     </footer>
   );
 }
-
-// Footer.defaultProps = {
-// getUndone: () => {},
-// filterTasks: () => {},
-// filterChange: () => {},
-// };
 
 export default Footer;
