@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { Todo, State } from "../modules";
 
-import Footer from "./footer";
+import FooterTodo from "./footer";
 import NewTaskForm from "./new-task-form";
 import TaskList from "./task-list";
 
@@ -29,6 +29,7 @@ export default class App extends Component {
     id: this.maxId++,
     done: false,
     time: new Date(),
+    running: false,
   });
 
   addItem = (text: string) => {
@@ -70,6 +71,21 @@ export default class App extends Component {
       const newEl = el;
       if (el.id === id) {
         newEl.done = !el.done;
+        newEl.running = false;
+      }
+      return newEl;
+    });
+
+    this.setState(() => ({ todoData: newArray }));
+  };
+
+  isRunningStopwatch = (id: number) => {
+    const { todoData } = this.state;
+
+    const newArray = todoData.map((el: Todo) => {
+      const newEl = el;
+      if (el.id === id) {
+        newEl.running = !newEl.running;
       }
       return newEl;
     });
@@ -91,8 +107,9 @@ export default class App extends Component {
             todoData={visibleItems}
             onDeleted={this.deleteItem}
             onCompleted={this.completeItem}
+            isRunningStopwatch={this.isRunningStopwatch}
           />
-          <Footer
+          <FooterTodo
             deleteAllCompleted={this.deleteAllCompleted}
             getUndone={this.getUndone()}
             filterChange={this.filterChange}

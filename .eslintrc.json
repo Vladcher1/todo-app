@@ -60,7 +60,7 @@
     "react/state-in-constructor": 0,
     "jsx-a11y/label-has-associated-control": 0,
     "indent": ["error", 2],
-    // "prettier/prettier": "error",
+    "prettier/prettier": "off",
     "linebreak-style": [0, "unix"],
     "quotes": [
       "error",

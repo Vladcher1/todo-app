@@ -24,10 +24,6 @@ class Timer extends React.Component<any, any> {
       this.setState({
         time: (time += 1),
       });
-    } else {
-      this.setState({
-        time: 0,
-      });
     }
   }
 

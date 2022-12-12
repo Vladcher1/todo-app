@@ -4,15 +4,22 @@ import { Props } from "../modules";
 
 import TasksFilter from "./tasks-filter";
 
-function Footer({
+function Footer(props: any) {
+  const { children } = props;
+  return <footer className="footer">{children}</footer>;
+}
+
+function FooterTodo({
   deleteAllCompleted,
   getUndone,
   filterChange,
   filter,
 }: Props) {
   return (
-    <footer className="footer">
-      <span className="todo-count">{getUndone} items left</span>
+    <Footer>
+      <span className="todo-count">
+        {getUndone} {getUndone === 1 ? "item" : "items"} left
+      </span>
       <TasksFilter filter={filter} filterChange={filterChange} />
       <button
         type="button"
@@ -23,8 +30,8 @@ function Footer({
       >
         Clear completed
       </button>
-    </footer>
+    </Footer>
   );
 }
 
-export default Footer;
+export default FooterTodo;

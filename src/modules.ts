@@ -3,6 +3,7 @@ export interface Todo {
   id: number;
   done: boolean;
   time: Date;
+  running: boolean;
 }
 
 export interface State {
@@ -21,10 +22,11 @@ export interface tProps {
   addItem: Function;
 }
 
-export interface lProps {
+export interface TaskListProps {
   todoData: any;
   onDeleted: Function;
   onCompleted: Function;
+  isRunningStopwatch: Function;
 }
 
 export interface TProps {

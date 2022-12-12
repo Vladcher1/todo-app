@@ -3,36 +3,23 @@ import { formatDistanceToNow } from "date-fns";
 
 import Timer from "./timer";
 
-export default class Task extends React.Component {
-  state = {
-    running: false,
-  };
-
-  // componentDidMount() {
-  //   const { time }: any = this.props;
-  //   this.distanceToNow = setInterval(
-  //     () => formatDistanceToNow(time, { includeSeconds: true }),
-  //     1000
-  //   );
-  // }
-
-  // formatDistanceToNow(time, { includeSeconds: true })
-  // componentWillUnmount() {
-  //   clearInterval(this.distanceToNow);
-  // }
-
+export default class Task extends React.Component<any, any> {
   toggleRunning = () => {
-    const { running } = this.state;
-    this.setState({
-      running: !running,
-    });
+    const { id, isRunningStopwatch }: any = this.props;
+    isRunningStopwatch(id);
   };
 
   render() {
-    const { label, done, onDeleted, onCompleted, time, id }: any = this.props;
-    const { running }: any = this.state;
-
-    // console.log(this.distanceToNow);
+    const {
+      label,
+      done,
+      onDeleted,
+      onCompleted,
+      time,
+      id,
+      running,
+      isRunningStopwatch,
+    }: any = this.props;
     let classNames = "";
     const check = done ? (classNames += " completed ") : (classNames = "");
     const showPlay = !running ? (
@@ -40,7 +27,7 @@ export default class Task extends React.Component {
         className="icon icon-play"
         type="button"
         aria-label="start timer"
-        onClick={() => this.toggleRunning()}
+        onClick={isRunningStopwatch}
       />
     ) : null;
 
@@ -67,12 +54,13 @@ export default class Task extends React.Component {
           />
 
           <label htmlFor={id}>
-            <span className="description title">
-              {label}
+            <span className="title">{label}</span>
+            <span className="description">
               {showStopwatch}
               <Timer running={running} />
             </span>
-            <span className="created">
+
+            <span className="description created">
               {formatDistanceToNow(time, { includeSeconds: true })}
             </span>
           </label>
