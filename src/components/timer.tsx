@@ -1,42 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-class Timer extends React.Component<any, any> {
-  timerID: any;
+const Timer = ({ running }: any) => {
+  const [time, setTime] = useState(0);
 
-  constructor(props: any) {
-    super(props);
-    this.state = { time: 0 };
-    this.timerID = 0;
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    let { time }: any = this.state;
-    const { running }: any = this.props;
+  const tick = () => {
     if (running) {
-      this.setState({
-        time: (time += 1),
-      });
+      setTime((prevTime) => ++prevTime);
     }
-  }
+  };
 
-  render() {
-    const { time }: any = this.state;
+  useEffect(() => {
+    const interval = setInterval(() => tick(), 1000);
+    return () => clearInterval(interval);
+  }, [running, time]);
 
-    const stopwatch = new Date(0, 0, 0, 0, 0, time);
-    return (
-      <div>
-        <span>{stopwatch.getMinutes()}:</span>
-        <span>{stopwatch.getSeconds()}</span>
-      </div>
-    );
-  }
-}
+  const stopwatch = new Date(0, 0, 0, 0, 0, time);
+  return (
+    <div>
+      <span>{stopwatch.getMinutes()}:</span>
+      <span>{stopwatch.getSeconds()}</span>
+    </div>
+  );
+};
+
 export default Timer;

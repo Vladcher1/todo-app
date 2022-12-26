@@ -24,6 +24,8 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier", "import"],
   "rules": {
+    "no-param-reassign": "off",
+    "react/function-component-definition": "off",
     "no-plusplus": "off",
     "object-curly-newline": "off",
     "comma-dangle": "off",
