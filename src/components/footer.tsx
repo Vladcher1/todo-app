@@ -1,35 +1,25 @@
-import { Props } from "../modules";
+import React from "react";
 
-import TasksFilter from "./tasks-filter";
+import { Props, Children } from "../modules";
 
-function Footer(props: any) {
-  const { children } = props;
-  return <footer className="footer">{children}</footer>;
-}
-
-function FooterTodo({
-  deleteAllCompleted,
-  getUndone,
-  filterChange,
-  filter,
-}: Props) {
-  return (
-    <Footer>
-      <span className="todo-count">
-        {getUndone} {getUndone === 1 ? "item" : "items"} left
-      </span>
-      <TasksFilter filter={filter} filterChange={filterChange} />
-      <button
-        type="button"
-        className="clear-completed"
-        onClick={() => {
-          deleteAllCompleted();
-        }}
-      >
-        Clear completed
-      </button>
-    </Footer>
-  );
-}
+const FooterTodo: React.FC<
+  Pick<Props, "deleteAllCompleted" | "getUndone"> & Children
+> = ({ deleteAllCompleted, getUndone, children }) => (
+  <footer className="footer">
+    <span className="todo-count">
+      {getUndone} {getUndone === 1 ? "item" : "items"} left
+    </span>
+    {children}
+    <button
+      type="button"
+      className="clear-completed"
+      onClick={() => {
+        deleteAllCompleted();
+      }}
+    >
+      Clear completed
+    </button>
+  </footer>
+);
 
 export default FooterTodo;

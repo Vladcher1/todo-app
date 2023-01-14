@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { tProps } from "../modules";
+import { Props } from "../modules";
 
-const NewTaskForm = ({ addItem }: tProps) => {
+const NewTaskForm: React.FC<Pick<Props, "addItem">> = ({ addItem }) => {
   const [label, setLabel] = useState("");
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

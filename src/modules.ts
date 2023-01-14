@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface Todo {
   label: string;
   id: number;
@@ -16,29 +18,14 @@ export interface Props {
   getUndone: number;
   filterChange: Function;
   filter: string;
-}
-
-export interface tProps {
   addItem: Function;
-}
-
-export interface TaskListProps {
   todoData: any;
   onDeleted: Function;
   onCompleted: Function;
   isRunningStopwatch: Function;
 }
 
-export interface TProps {
-  label: string;
-  done: boolean;
-  onDeleted: any;
-  onCompleted: any;
-  time: Date;
-  id: any;
+export interface Children {
+  children: React.ReactNode;
 }
-
-export interface EProps {
-  filterChange: Function;
-  filter: string;
-}
+export type TaskProps = Props & Todo;

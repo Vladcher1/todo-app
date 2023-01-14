@@ -1,8 +1,23 @@
+import React from "react";
 import { formatDistanceToNow } from "date-fns";
+
+import { TaskProps } from "../modules";
 
 import Timer from "./timer";
 
-const Task = ({
+const Task: React.FC<
+  Pick<
+    TaskProps,
+    | "id"
+    | "label"
+    | "done"
+    | "onCompleted"
+    | "onDeleted"
+    | "time"
+    | "running"
+    | "isRunningStopwatch"
+  >
+> = ({
   label,
   done,
   onDeleted,
@@ -11,32 +26,34 @@ const Task = ({
   id,
   running,
   isRunningStopwatch,
-}: any) => {
-  const toggleRunning = () => {
-    isRunningStopwatch(id);
-  };
-
+}) => {
   let classNames = "";
   const check = done ? (classNames += " completed ") : (classNames = "");
-  const showPlay = !running ? (
+  const showPlay = !running && (
     <button
       className="icon icon-play"
       type="button"
       aria-label="start timer"
-      onClick={isRunningStopwatch}
+      onClick={() => isRunningStopwatch()}
     />
-  ) : null;
+  );
 
-  const showPause = running ? (
+  const showPause = running && (
     <button
       className="icon icon-pause"
       type="button"
       aria-label="stop timer"
-      onClick={() => toggleRunning()}
+      onClick={() => isRunningStopwatch(id)}
     />
-  ) : null;
+  );
 
   const showStopwatch = running ? showPause : showPlay;
+  const deleteOnChange = () => {
+    onCompleted(id);
+  };
+  const completeOnChange = () => {
+    onDeleted(id);
+  };
 
   return (
     <li className={check}>
@@ -44,12 +61,12 @@ const Task = ({
         <input
           className="toggle"
           type="checkbox"
-          onChange={onCompleted}
+          onChange={deleteOnChange}
           checked={done}
-          id={id}
+          id={String(id)}
         />
 
-        <label htmlFor={id}>
+        <label htmlFor={String(id)}>
           <span className="title">{label}</span>
           <span className="description">
             {showStopwatch}
@@ -65,7 +82,7 @@ const Task = ({
           aria-label="delete"
           type="button"
           className="icon icon-destroy"
-          onClick={onDeleted}
+          onClick={completeOnChange}
         />
       </div>
     </li>

@@ -1,6 +1,11 @@
-import { EProps } from "../modules";
+import React from "react";
 
-function TasksFilter({ filterChange, filter }: EProps) {
+import { Props } from "../modules";
+
+const TasksFilter: React.FC<Pick<Props, "filter" | "filterChange">> = ({
+  filterChange,
+  filter,
+}) => {
   let classNamesAll = "";
   let classNamesActive = "";
   let classNamesDone = "";
@@ -50,6 +55,6 @@ function TasksFilter({ filterChange, filter }: EProps) {
       </li>
     </ul>
   );
-}
+};
 
 export default TasksFilter;

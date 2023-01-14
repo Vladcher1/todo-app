@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-const Timer = ({ running }: any) => {
+import { Todo } from "../modules";
+
+const Timer: React.FC<Pick<Todo, "running">> = ({ running }) => {
   const [time, setTime] = useState(0);
 
   const tick = () => {

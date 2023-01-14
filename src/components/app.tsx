@@ -1,15 +1,17 @@
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { Todo } from "../modules";
 
 import FooterTodo from "./footer";
 import NewTaskForm from "./new-task-form";
 import TaskList from "./task-list";
+import TasksFilter from "./tasks-filter";
 
-let maxId = 1;
-const App = () => {
+const App: React.FC = () => {
   const [todoData, setTodoData]: any = useState([]);
   const [filter, setFilter] = useState("all");
+
+  const maxId = useRef(1);
 
   const filterTasks = () => {
     if (filter === "active") {
@@ -21,18 +23,18 @@ const App = () => {
     return todoData;
   };
 
-  const createTask = (label: string) => ({
+  const createTask = (label: Pick<Todo, "label">) => ({
     label,
-    id: maxId++,
+    id: maxId.current++,
     done: false,
     time: new Date(),
     running: false,
   });
 
-  const addItem = (text: string) => {
+  const addItem = (text: Pick<Todo, "label">) => {
     const newTask = createTask(text);
 
-    setTodoData([...todoData, newTask]);
+    setTodoData((prevtodoData: any) => [...prevtodoData, newTask]);
   };
 
   const filterChange = (name: string) => {
@@ -42,21 +44,24 @@ const App = () => {
   const getUndone = () => todoData.filter((el: Todo) => !el.done).length;
 
   const deleteAllCompleted = () => {
-    setTodoData(todoData.filter((el: Todo) => el.done !== true));
+    setTodoData((preTodoData: Todo[]) =>
+      preTodoData.filter((el: Todo) => el.done !== true)
+    );
   };
 
   const deleteItem = (id: number) => {
-    setTodoData(todoData.filter((el: Todo) => el.id !== id));
+    setTodoData((prevTodoData: Todo[]) =>
+      prevTodoData.filter((el: Todo) => el.id !== id)
+    );
   };
 
   const completeItem = (id: number) => {
     const newArray = todoData.map((el: Todo) => {
-      const newEl = el;
       if (el.id === id) {
-        newEl.done = !el.done;
-        newEl.running = false;
+        el.done = !el.done;
+        el.running = false;
       }
-      return newEl;
+      return el;
     });
 
     setTodoData(newArray);
@@ -91,9 +96,9 @@ const App = () => {
         <FooterTodo
           deleteAllCompleted={deleteAllCompleted}
           getUndone={getUndone()}
-          filterChange={filterChange}
-          filter={filter}
-        />
+        >
+          <TasksFilter filter={filter} filterChange={filterChange} />
+        </FooterTodo>
       </section>
     </div>
   );
