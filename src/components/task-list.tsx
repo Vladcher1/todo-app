@@ -18,12 +18,6 @@ const TaskList: React.FC<
         key={id}
         label={label}
         id={id}
-        // onDeleted={() => {
-        //   onDeleted(id);
-        // }}
-        // onCompleted={() => {
-        //   onCompleted(id);
-        // }}
         onDeleted={onDeleted}
         onCompleted={onCompleted}
       />
