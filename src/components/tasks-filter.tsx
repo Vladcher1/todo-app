@@ -1,5 +1,3 @@
-import React from "react";
-
 import { EProps } from "../modules";
 
 function TasksFilter({ filterChange, filter }: EProps) {

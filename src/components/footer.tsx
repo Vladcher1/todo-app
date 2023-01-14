@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Props } from "../modules";
 
 import TasksFilter from "./tasks-filter";

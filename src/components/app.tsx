@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Todo } from "../modules";
 
@@ -8,7 +8,7 @@ import TaskList from "./task-list";
 
 let maxId = 1;
 const App = () => {
-  const [todoData, setTodoData] = useState([]);
+  const [todoData, setTodoData]: any = useState([]);
   const [filter, setFilter] = useState("all");
 
   const filterTasks = () => {
@@ -20,8 +20,6 @@ const App = () => {
     }
     return todoData;
   };
-
-  // useEffect(() => {}, []);
 
   const createTask = (label: string) => ({
     label,
@@ -41,15 +39,10 @@ const App = () => {
     setFilter(name);
   };
 
-  const getUndone = () => {
-    const count = todoData.filter((el: Todo) => el.done === false).length;
-    return count;
-  };
+  const getUndone = () => todoData.filter((el: Todo) => !el.done).length;
 
   const deleteAllCompleted = () => {
-    setTodoData(
-      todoData.filter((el: Todo) => el.done !== true && todoData.includes(el))
-    );
+    setTodoData(todoData.filter((el: Todo) => el.done !== true));
   };
 
   const deleteItem = (id: number) => {

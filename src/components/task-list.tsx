@@ -1,5 +1,3 @@
-import React from "react";
-
 import { TaskListProps } from "../modules";
 
 import Task from "./task";
